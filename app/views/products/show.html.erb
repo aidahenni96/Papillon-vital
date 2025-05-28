@@ -1,0 +1,37 @@
+<% image_map = {
+  "ashwagandha bio" => "Ashwagandha_bio.png",
+  "curcuma bio" => "Curcuma_bio.png",
+  "farine de coco bio" => "Farinedecoco_bio.png",
+  "gingembre bio" => "Gingembre_bio.png",
+  "graines de lin bio" => "Grainesdelin_bio.png",
+  "maca bio" => "Maca_bio.png",
+  "noix du brésil bio" => "NoixduBresil_Bio.png",
+  "romarin bio" => "Romarin_Bio.png",
+  "spiruline bio" => "Spiruline_Bio.png"
+} %>
+
+<% image_file = image_map[@product.name.downcase.strip] %>
+
+<div class="product-show container my-5">
+  <p class="flash-notice"><%= notice %></p>
+
+  <h1><%= @product.name %></h1>
+
+  <div class="row">
+    <div class="col-md-6">
+      <% if image_file.present? %>
+        <%= image_tag "products/#{image_file}", class: "img-fluid", alt: @product.name %>
+      <% else %>
+        <p>Aucune image disponible</p>
+      <% end %>
+    </div>
+
+    <div class="col-md-6">
+      <p><%= @product.description %></p>
+      <p class="h4"><%= number_to_currency(@product.price, unit: "€") %></p>
+
+      <%= link_to 'Ajouter au panier', "#", class: 'btn btn-vert-canard mt-3' %>
+      <%= link_to 'Retour à la boutique', products_path, class: 'btn btn-vert-canard mt-3' %>
+    </div>
+  </div>
+</div>

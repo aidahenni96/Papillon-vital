@@ -1,0 +1,19 @@
+<% content_for :title, "Nos Produits Bio" %>
+
+<p class="flash-notice"><%= notice %></p>
+
+<div class="page-header">
+  <h1>Nos Produits Bio</h1>
+  <p class="lead">
+    Découvrez notre sélection rigoureuse de produits naturels, pensés pour accompagner les personnes atteintes de la thyroïdite de Hashimoto.
+  </p>
+</div>
+
+<div class="row">
+  <% @products.each do |product| %>
+    <div class="col-md-4 mb-4">
+      <%= render partial: "product", locals: { product: product } %>
+    </div>
+  <% end %>
+</div>
+

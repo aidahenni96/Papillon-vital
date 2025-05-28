@@ -1,0 +1,7 @@
+<% content_for :title, "New product" %>
+
+<h1>Ajouter un nouveau produit</h1>
+
+<%= render 'form', product: @product %>
+
+<%= link_to 'Retour', products_path, class: 'btn btn-outline-secondary mt-3' %>

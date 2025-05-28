@@ -1,0 +1,47 @@
+<!-- app/views/products/_product.html.erb -->
+
+<div class="product-card" style="border: 1px solid #ddd; padding: 15px; margin-bottom: 20px; border-radius: 5px;">
+
+  <div class="product-image" style="margin-bottom: 10px;">
+    <%# Mappe le nom produit au fichier image %>
+    <% image_file = case product.name.downcase.strip
+      when "ashwagandha bio" then "Ashwagandha_bio.png"
+      when "curcuma bio" then "Curcuma_bio.png"
+      when "farine de coco bio" then "Farinedecoco_bio.png"
+      when "gingembre bio" then "Gingembre_bio.png"
+      when "graines de lin bio" then "Grainesdelin_bio.png"
+      when "maca bio" then "Maca_bio.png"
+      when "noix du brésil bio" then "NoixduBresil_Bio.png"
+      when "romarin bio" then "Romarin_Bio.png"
+      when "spiruline bio" then "Spiruline_Bio.png"
+      else nil
+    end %>
+    
+    <% if image_file.present? %>
+      <%= image_tag "products/#{image_file}", alt: product.name, style: "max-width: 200px; height: auto;" %>
+    <% else %>
+      <p style="color: #999;">Aucune image disponible</p>
+    <% end %>
+  </div>
+  
+  <h2 style="margin-bottom: 5px;"><%= product.name %></h2>
+
+  <p style="font-size: 0.9rem; color: #555; margin-bottom: 10px;">
+    <%= truncate(product.description, length: 100) %>
+  </p>
+
+  <p style="font-weight: bold; margin-bottom: 5px;">
+    Prix : <%= number_to_currency(product.price, unit: "€") %>
+  </p>
+
+  <p style="margin-bottom: 15px;">
+    Stock disponible : <%= product.stock %>
+  </p>
+  
+  <div class="actions">
+  <%= link_to "Voir", product_path(product), class: "btn-vert-canard", style: "margin-right: 10px;" %>
+  <%= link_to "Modifier", edit_product_path(product), class: "btn-vert-canard", style: "margin-right: 10px;" %>
+  <%= link_to "Supprimer", product_path(product), method: :delete, data: { confirm: "Es-tu sûr(e) ?" }, class: "btn-vert-canard" %>
+  
+  </div>
+</div>
