@@ -30,7 +30,7 @@
       <p><%= @product.description %></p>
       <p class="h4"><%= number_to_currency(@product.price, unit: "€") %></p>
 
-      <%= link_to 'Ajouter au panier', "#", class: 'btn btn-vert-canard mt-3' %>
+      <%= button_to 'Ajouter au panier', cart_products_path(product_id: @product.id), method: :post, class: 'btn btn-vert-canard mt-3' %>
       <%= link_to 'Retour à la boutique', products_path, class: 'btn btn-vert-canard mt-3' %>
     </div>
   </div>

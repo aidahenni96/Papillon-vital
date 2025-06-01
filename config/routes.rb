@@ -1,9 +1,17 @@
 Rails.application.routes.draw do
-  get "users/index"
+  post "checkout", to: "orders#create_checkout", as: :checkout
+  get "orders/success", to: "orders#success"
+  get "orders/cancel", to: "orders#cancel"
+  get "/profil", to: "users#profile", as: :user_profile
 
+  resources :order_products
+  resources :orders, only: [:new,:create, :index, :show]
+  get "carts/show"
+  resources :cart_products
   devise_for :users
   resources :products
-  resources :users, only: [:index]
+  resource :cart, only: [:show]
+
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -16,5 +24,5 @@ Rails.application.routes.draw do
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Defines the root path route ("/")
-  # root "posts#index"
+  root "products#index"
 end

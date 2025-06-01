@@ -1,5 +1,6 @@
 class User < ApplicationRecord
-  #has_one  :cart,  dependent: :destroy
+  has_one  :cart,  dependent: :destroy
+  after_create :create_cart
   #has_many :orders,dependent: :nullify
 
   #after_create :create_cart
@@ -8,6 +9,10 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+      private
 
+      def create_cart
+        Cart.create(user: self)
+        end
   
 end
