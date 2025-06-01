@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   has_one  :cart,  dependent: :destroy
   after_create :create_cart
-  #has_many :orders,dependent: :nullify
+  has_many :orders,dependent: :nullify
 
   #after_create :create_cart
   # Include default devise modules. Others available are:

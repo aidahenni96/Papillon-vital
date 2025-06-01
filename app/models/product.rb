@@ -5,6 +5,9 @@ class Product < ApplicationRecord
   validates :stock, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :image_url, format: { with: URI::regexp(%w[http https]), message: "doit être une URL valide" }, allow_blank: true
   has_and_belongs_to_many :carts
+  has_many :order_products
+  has_many :orders, through: :order_products
+
 end
 def image_filename
   image_map = {

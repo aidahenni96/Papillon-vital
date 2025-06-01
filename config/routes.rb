@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :orders
   post "checkout", to: "orders#create_checkout", as: :checkout
   get "orders/success", to: "orders#success"
   get "orders/cancel", to: "orders#cancel"
