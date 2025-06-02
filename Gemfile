@@ -63,4 +63,9 @@ group :test do
 end
 
 gem "faker", "~> 3.5"
+
 gem 'devise', '~> 4.9'
+
+gem 'dotenv-rails'
+
+gem 'stripe'

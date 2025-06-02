@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
+    <meta name="stripe-public-key" content="<%= ENV['STRIPE_PUBLIC_KEY'] %>">
+
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -86,11 +88,16 @@
 
     <footer class="text-center mt-5">
 
-  <p>&copy; 2023 Papillon Vital. Tous droits réservés.</p>
-  <p>Site réalisé par <a href="https://github.com/AIDAIOANA">AIDA-IOANA</a>.</p>
-    <p class="alert alert-info"><%= notice %></p>
-    <p class="alert alert-danger"><%= alert %></p>
+  <p>&copy; 2025 Papillon Vital. Tous droits réservés.</p>
+  <p>Site réalisé par <a href="https://github.com/AIDAIOANA">A&I</a>.</p>
+    
+  <% if notice %>
+  <p class="alert alert-info"><%= notice %></p>
+<% end %>
+
+  <% if alert %>
+  <p class="alert alert-danger"><%= alert %></p>
+<% end %>
 </footer>
     
 </html>
-   

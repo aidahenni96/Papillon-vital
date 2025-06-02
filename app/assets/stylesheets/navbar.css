@@ -33,3 +33,21 @@
     transform: translateX(-100%);
   }
 }
+
+
+
+.blurred-image-container {
+  position: relative;
+  overflow: hidden;
+  max-height: 200px;
+  border-radius: 0.5rem;
+}
+
+.blurred-image {
+
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+

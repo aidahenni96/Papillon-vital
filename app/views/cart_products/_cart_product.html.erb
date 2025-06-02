@@ -1,17 +1,11 @@
-<div id="<%= dom_id cart_product %>">
-  <p>
-    <strong>Cart:</strong>
-    <%= cart_product.cart_id %>
-  </p>
-
-  <p>
-    <strong>Product:</strong>
-    <%= cart_product.product_id %>
-  </p>
-
-  <p>
-    <strong>Quantity:</strong>
-    <%= cart_product.quantity %>
-  </p>
-
-</div>
+<% if @products.present? %>
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    <% @products.each do |product| %>
+      <div class="col">
+        <%= render product %>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <p>Aucun produit dans ce panier.</p>
+<% end %>

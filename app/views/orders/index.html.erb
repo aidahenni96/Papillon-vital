@@ -1,16 +1,19 @@
-<p style="color: green"><%= notice %></p>
+<% if notice %>
+  <div class="alert alert-success" role="alert">
+    <%= notice %>
+  </div>
+<% end %>
 
 <% content_for :title, "Orders" %>
 
-<h1>Orders</h1>
+<h1 class="mb-4">Commandes</h1>
 
-<div id="orders">
+<div id="orders" class="row g-3">
   <% @orders.each do |order| %>
-    <%= render order %>
-    <p>
-      <%= link_to "Show this order", order %>
-    </p>
+    <div class="col-md-6 col-lg-4">
+      <%= render order %>
+    
+    </div>
   <% end %>
 </div>
 
-<%= link_to "New order", new_order_path %>

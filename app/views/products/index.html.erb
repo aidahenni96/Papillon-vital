@@ -1,6 +1,14 @@
 <% content_for :title, "Nos Produits Bio" %>
 
+<% if notice %>
 <p class="flash-notice"><%= notice %></p>
+<% end %>
+
+<div class="container">
+  <div class="blurred-image-container mb-4">
+    <%= image_tag "Ac/Photo_accueil.jpg", alt: "Image de fond floue", class: "blurred-image" %>
+  </div>
+</div>
 
 <div class="page-header mb-4">
   <h1>Nos Produits Bio</h1>
@@ -8,6 +16,7 @@
     Découvrez notre sélection rigoureuse de produits naturels, pensés pour accompagner les personnes atteintes de la thyroïdite de Hashimoto.
   </p>
 </div>
+
 
 <!-- Slogan défilant -->
 <div class="slogan-container mb-4">

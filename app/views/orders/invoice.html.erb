@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Facture</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+</head>
+<body class="bg-light">
+  <div class="container my-5">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <div class="border-bottom border-dark pb-3 mb-4">
+          <h1 class="text-center">Facture</h1>
+          <p class="text-center lead">Papillon Vital</p>
+        </div>
+
+        <div class="row mb-4">
+          <div class="col-md-6">
+            <p class="mb-2"><strong>Client :</strong> <%= @order.user.email if @order.user %></p>
+          </div>
+          <div class="col-md-6 text-md-right">
+            <p class="mb-2"><strong>Date de la commande :</strong> <%= @order.created_at.strftime("%d/%m/%Y") %></p>
+          </div>
+        </div>
+
+        <h4 class="mb-3">Détails des produits :</h4>
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover">
+            <thead class="bg-light">
+              <tr>
+                <th>Produit</th>
+                <th>Quantité</th>
+                <th>Prix unitaire HT</th>
+                <th>Total HT</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% total_ht = 0 %>
+              <% @order.order_products.each do |item| %>
+                <% line_total = item.price_at_purchase * item.quantity %>
+                <% total_ht += line_total %>
+                <tr>
+                  <td><%= item.product.name %></td>
+                  <td><%= item.quantity %></td>
+                  <td><%= number_to_currency(item.price_at_purchase, unit: "€") %></td>
+                  <td><%= number_to_currency(line_total, unit: "€") %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+
+        <% tva_rate = 0.20 %>
+        <% tva = total_ht * tva_rate %>
+        <% shipping_fee = total_ht < 50 ? 5.0 : 0.0 %>
+        <% total_ttc = total_ht + tva + shipping_fee %>
+
+        <div class="text-right">
+          <table class="table table-borderless w-auto ms-auto">
+            <tbody>
+              <tr>
+                <th>Sous-total HT :</th>
+                <td><%= number_to_currency(total_ht, unit: "€") %></td>
+              </tr>
+              <tr>
+                <th>TVA (20%) :</th>
+                <td><%= number_to_currency(tva, unit: "€") %></td>
+              </tr>
+              <tr>
+                <th>Frais de livraison :</th>
+                <td><%= number_to_currency(shipping_fee, unit: "€") %></td>
+              </tr>
+              <tr class="fw-bold border-top">
+                <th>Total TTC :</th>
+                <td><%= number_to_currency(total_ttc, unit: "€") %></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="text-center mt-4 text-muted">
+          <p>Merci pour votre commande !</p>
+          <p>Pour toute question, contactez-nous à contact@papillonvital.com</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

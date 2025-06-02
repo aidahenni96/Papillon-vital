@@ -1,17 +1,19 @@
-<div id="<%= dom_id order %>">
-  <p>
-    <strong>User:</strong>
-    <%= order.user_id %>
-  </p>
-
-  <p>
-    <strong>Status:</strong>
-    <%= order.status %>
-  </p>
-
-  <p>
-    <strong>Total price:</strong>
-    <%= order.total_price %>
-  </p>
-
+<div class="card mt-4 shadow-sm">
+  <div class="card-body">
+    <h5 class="card-title">Commande n°<%= order.id %></h5>
+    <p class="card-text"><strong>Client :</strong> <%= order.user.email if order.user %></p>
+    <p class="card-text"><strong>Montant total :</strong> <%= number_to_currency(order.total_price, unit: "€") %></p>
+    <p class="card-text">
+      <strong>Statut :</strong>
+      <% status_class = case order.status.to_s.downcase
+         when "en cours" then "badge bg-warning"
+         when "livrée" then "badge bg-success"
+         when "annulée" then "badge bg-danger"
+         else "badge bg-secondary"
+         end %>
+      <span class="<%= status_class %>"><%= order.status.to_s.capitalize %></span>
+    </p>
+    <a href="<%= order_path(order) %>" class="btn btn-primary mt-3">Voir la commande</a>
+  </div>
 </div>
+

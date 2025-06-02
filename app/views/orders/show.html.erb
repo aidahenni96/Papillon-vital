@@ -1,10 +1,14 @@
-<p style="color: green"><%= notice %></p>
+<%# Message flash de succès s’il y a lieu %>
+<% if notice %>
+  <p class="alert alert-success"><%= notice %></p>
+<% end %>
 
+<%# Rendu du partial de l’ordre (ex: _order.html.erb) %>
 <%= render @order %>
 
-<div>
-  <%= link_to "Edit this order", edit_order_path(@order) %> |
-  <%= link_to "Back to orders", orders_path %>
-
-  <%= button_to "Destroy this order", @order, method: :delete %>
+<%# Boutons d'action %>
+<div class="btn-group mt-3" role="group">
+  <%= link_to "Retour aux commandes", orders_path, class: "btn btn-outline-secondary" %>
+  <%= link_to "Télécharger la facture", invoice_order_path(@order), class: "btn btn-info" %>
+  <%= button_to "Supprimer la commande", @order, method: :delete, data: { confirm: "Es-tu sûr(e) de vouloir supprimer cette commande ?" }, class: "btn btn-danger" %>
 </div>

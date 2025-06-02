@@ -1,69 +1,81 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_order, only: %i[show edit update destroy]
 
-  # GET /orders
+
+class OrdersController < ApplicationController
+  def new
+    @order = Order.new
+  end
+end
+
   def index
     @orders = current_user.orders
   end
 
-  # GET /orders/1
   def show
+    @order = current_user.orders.find(params[:id])
   end
 
-  # GET /orders/new
-  def new
-    @order = Order.new
+  def invoice
+    @order = current_user.orders.find(params[:id])
   end
 
-  # GET /orders/1/edit
-  def edit
-  end
-
-  # POST /orders
-  def create
-    @order = current_user.orders.build(order_params)
-
-    respond_to do |format|
-      if @order.save
-        format.html { redirect_to @order, notice: "Commande créée avec succès." }
-        format.json { render :show, status: :created, location: @order }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @order.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # PATCH/PUT /orders/1
-  def update
-    respond_to do |format|
-      if @order.update(order_params)
-        format.html { redirect_to @order, notice: "Commande mise à jour avec succès." }
-        format.json { render :show, status: :ok, location: @order }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @order.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /orders/1
   def destroy
+    @order = current_user.orders.find(params[:id])
+    @order.order_products.destroy_all
     @order.destroy
-    respond_to do |format|
-      format.html { redirect_to orders_path, notice: "Commande supprimée avec succès." }
-      format.json { head :no_content }
-    end
+    redirect_to orders_path, notice: "Commande supprimée avec succès."
   end
 
-  private
-
-    def set_order
-      @order = current_user.orders.find(params[:id])
+  def create
+    cart = current_user.cart
+    if cart.nil? || cart.cart_products.empty?
+      redirect_to cart_path, alert: "Votre panier est vide."
+      return
     end
 
-    def order_params
-      params.require(:order).permit(:status, :total_price)
+    order = current_user.orders.create!(
+      total_price: cart.cart_products.sum { |cp| cp.product.price * cp.quantity },
+      status: 0 # par exemple : en attente
+    )
+
+    cart.cart_products.each do |cp|
+      order.order_products.create!(
+        product: cp.product,
+        quantity: cp.quantity,
+        price_at_purchase: cp.product.price
+      )
     end
+
+    # Vider le panier (optionnel, sinon après le paiement)
+    cart.cart_products.destroy_all
+
+    # Rediriger vers la page Stripe de paiement
+    redirect_to checkout_order_path(order)
+  end
+
+  def checkout
+    order = Order.find(params[:id])
+
+    session = Stripe::Checkout::Session.create(
+      payment_method_types: ['card'],
+      line_items: order.order_products.map do |op|
+        {
+          price_data: {
+            currency: 'eur',
+            unit_amount: (op.price_at_purchase * 100).to_i,
+            product_data: {
+              name: op.product.name
+            }
+          },
+          quantity: op.quantity
+        }
+      end,
+      mode: 'payment',
+      success_url: orders_url, # à personnaliser
+      cancel_url: cart_url
+    )
+
+    redirect_to session.url, allow_other_host: true
+  end
 end
