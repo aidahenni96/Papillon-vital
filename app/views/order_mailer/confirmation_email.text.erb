@@ -1,0 +1,9 @@
+Merci <%= @user.email %> pour ta commande !
+
+Voici les photos de tes produits :
+
+<% @products.each do |product| %>
+- <%= product.name%> : <%= product.image_url %>
+<% end %>
+
+À très vite avec Papillon Vital.

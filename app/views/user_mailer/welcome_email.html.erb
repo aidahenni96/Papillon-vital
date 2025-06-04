@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Salut <%= @user.email %> et bienvenue chez Papillon Vital ! 🦋</h1>
+
+    <p>
+      Tu t'es inscrit sur <strong>papillonvital.fr</strong> avec l'adresse : <%= @user.email %>.
+    </p>
+
+    <p>
+      Pour accéder à ton espace client et découvrir nos produits bio pour la thyroïdite de Hashimoto, connecte-toi ici :
+      <%= link_to "Mon espace", @url %>
+    </p>
+
+    <p>
+      À très vite sur <strong>papillonvital.fr</strong> 🌿
+    </p>
+  </body>
+</html>

@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     member do
       get :checkout
       get :invoice
+      get :confirmation
     end
 
     collection do

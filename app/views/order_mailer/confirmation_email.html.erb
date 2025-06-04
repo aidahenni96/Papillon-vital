@@ -1,0 +1,14 @@
+<h1>Merci <%= @user.email %> pour ta commande ! 🌿</h1>
+
+<p>Voici les photos de tes produits :</p>
+
+<ul>
+  <% @products.each do |product| %>
+    <li>
+      <strong><%= product.name%></strong><br>
+      <%= link_to product.image_url, product.image_url, target: "_blank" %>
+    </li>
+  <% end %>
+</ul>
+
+<p>Nous espérons qu’ils t’apporteront bien-être et vitalité ✨</p>

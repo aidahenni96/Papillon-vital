@@ -9,8 +9,13 @@ class OrdersController < ApplicationController
 end
 
   def index
-    @orders = current_user.orders
+    @orders = current_user.orders.includes(:products)
   end
+
+  def total_price
+    products.sum(:price)
+  end
+  
 
   def show
     @order = current_user.orders.find(params[:id])
@@ -18,6 +23,7 @@ end
 
   def invoice
     @order = current_user.orders.find(params[:id])
+    OrderMailer.confirmation_email(@order).deliver_later
   end
 
   def destroy
@@ -78,4 +84,24 @@ end
 
     redirect_to session.url, allow_other_host: true
   end
+
+  def success
+    session = Stripe::Checkout::Session.retrieve(params[:session_id])
+    payment_intent = Stripe::PaymentIntent.retrieve(session.payment_intent)
+  
+    # Optionnel : tu peux stocker le payment_intent.id dans l’ordre
+    order = current_user.orders.order(created_at: :desc).first
+    order.update(status: "paid", stripe_payment_id: payment_intent.id)
+
+    # Envoi de l'email de confirmation
+    OrderMailer.confirmation_email(order).deliver_later
+    UserMailer.order_notification(order).deliver_later
+  
+    redirect_to cart_path(status: "paid")
+  end  
+
+  def confirmation
+    @order = Order.find(params[:id])
+  end
+
 end

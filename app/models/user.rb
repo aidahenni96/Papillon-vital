@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   has_one  :cart,  dependent: :destroy
   after_create :create_cart
-  has_many :orders,dependent: :nullify
+  has_many :orders,dependent: :nullify , dependent: :destroy
 
   #after_create :create_cart
   # Include default devise modules. Others available are:
@@ -13,6 +13,10 @@ class User < ApplicationRecord
 
       def create_cart
         Cart.create(user: self)
+        end
+
+        def name
+          [first_name, last_name].compact.join(" ")
         end
   
 end

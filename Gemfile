@@ -69,3 +69,7 @@ gem 'devise', '~> 4.9'
 gem 'dotenv-rails'
 
 gem 'stripe'
+
+gem 'letter_opener'
+
+gem 'devise-i18n'
