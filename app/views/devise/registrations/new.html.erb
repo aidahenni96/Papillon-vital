@@ -6,6 +6,20 @@
 
       <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "needs-validation", novalidate: true }) do |f| %>
         <%= render "devise/shared/error_messages", resource: resource %>
+        <div class="mb-3">
+          <%= f.label :pseudo, "Pseudo", class: "form-label" %>
+          <%= f.text_field :pseudo, placeholder: "Entrez votre pseudo", autofocus: true, autocomplete: "Pseudo", class: "form-control" %>
+        </div>
+
+        <div class="mb-3">
+          <%= f.label :first_name, "Prénom", class: "form-label" %>
+          <%= f.text_field :first_name, placeholder: "Entrez votre prénom", autofocus: true, autocomplete: "Prénom", class: "form-control" %>
+        </div>
+
+        <div class="mb-3">
+          <%= f.label :last_name, "Nom", class: "form-label" %>
+          <%= f.text_field :last_name, placeholder: "Entrez votre nom", autofocus: true, autocomplete: "Nom", class: "form-control" %>
+        </div>
 
         <div class="mb-3">
           <%= f.label :email, "Adresse e-mail", class: "form-label" %>

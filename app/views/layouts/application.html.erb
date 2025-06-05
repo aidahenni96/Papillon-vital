@@ -54,7 +54,7 @@
             <span class="nav-link text-white">Bonjour, <%= current_user.first_name %></span>
           </li>
           <li class="nav-item">
-          <%= link_to "Modifier mon compte", edit_user_registration_path, class: "nav-link text-white" %>
+          <%= link_to "mon compte", edit_user_registration_path, class: "nav-link text-white" %>
         </li>
           <li class="nav-item">
             <%= button_to "Déconnexion", destroy_user_session_path, method: :delete, class: "nav-link text-white btn btn-link", data: { turbo_method: :delete }, form: { class: "d-inline" } %>
@@ -73,6 +73,7 @@
         <li class="nav-item">
           <%= link_to cart_path, class: "nav-link text-white d-flex align-items-center" do %>
             <i class="bi bi-cart3 me-1"></i> Panier
+            
           <% end %>
         </li>
       </ul>
