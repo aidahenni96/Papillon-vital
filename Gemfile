@@ -73,3 +73,11 @@ gem 'stripe'
 gem 'letter_opener'
 
 gem 'devise-i18n'
+
+# Graphiques pour l'admin dashboard
+gem 'chartkick'
+
+gem 'groupdate'
+
+gem "image_processing", "~> 1.12"
+

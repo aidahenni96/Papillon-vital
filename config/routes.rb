@@ -1,4 +1,14 @@
 Rails.application.routes.draw do
+  namespace :admin do
+    get "products/index"
+    get "products/show"
+    get "products/new"
+    get "products/create"
+    get "products/edit"
+    get "products/update"
+    get "products/destroy"
+    get "dashboard/index"
+  end
   root "products#index"
 
   devise_for :users
@@ -28,4 +38,10 @@ Rails.application.routes.draw do
 
   get "/profil", to: "users#profile", as: :user_profile
   get "up" => "rails/health#show", as: :rails_health_check
+
+  namespace :admin do
+    get 'dashboard', to: 'dashboard#index'
+    resources :products
+  end
+  
 end

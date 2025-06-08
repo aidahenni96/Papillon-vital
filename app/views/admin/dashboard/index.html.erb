@@ -1,0 +1,116 @@
+<h1>Gestion des Produits</h1>
+
+<%= link_to "Ajouter un nouveau produit", new_admin_product_path, class: "btn btn-primary mb-3" %>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Nom</th>
+      <th>Prix</th>
+      <th>Stock</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @products.each do |product| %>
+      <tr>
+        <td><%= product.name %></td>
+        <td><%= number_to_currency(product.price, unit: "€") %></td>
+        <td><%= product.stock %></td>
+        <td>
+          <%= link_to "Modifier", edit_admin_product_path(product), class: "btn btn-sm btn-warning" %>
+          <%= link_to "Supprimer", admin_product_path(product), method: :delete, data: { confirm: "Êtes-vous sûr ?" }, class: "btn btn-sm btn-danger" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+
+<div class="container my-5">
+  <h2 class="mb-4 text-center">Tableau de bord Administratif – Papillon Vital</h2>
+
+  <div class="row text-white">
+    <div class="col-md-3">
+      <div class="card bg-success shadow rounded">
+        <div class="card-body">
+          <h5 class="card-title">Produits en Boutique</h5>
+          <p class="card-text display-6"><%= @products_count %></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card bg-primary shadow rounded">
+        <div class="card-body">
+          <h5 class="card-title">Utilisateurs enregistrés</h5>
+          <p class="card-text display-6"><%= @users_count %></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card bg-warning shadow rounded">
+        <div class="card-body">
+          <h5 class="card-title">Stock total</h5>
+          <p class="card-text display-6"><%= @total_stock %></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card bg-info shadow rounded">
+        <div class="card-body">
+          <h5 class="card-title">Prix moyen</h5>
+          <p class="card-text display-6"><%= number_to_currency(@average_price || 0, unit: "€", separator: ",", delimiter: " ") %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 💰 Chiffre d'affaires -->
+  <div class="row mt-4 text-white">
+    <div class="col-md-3">
+      <div class="card bg-dark shadow rounded">
+        <div class="card-body">
+          <h5 class="card-title">Chiffre d'affaires total</h5>
+          <p class="card-text display-6">
+            <%= number_to_currency(@total_revenue || 0, unit: "€", separator: ",", delimiter: " ") %>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 📈 Évolution des commandes -->
+  <div class="mt-5">
+    <h3 class="mb-3">Évolution des commandes</h3>
+    <%= line_chart @orders_by_day, library: { backgroundColor: "#f8f9fa" } %>
+  </div>
+
+  <!-- 🧾 Dernières commandes -->
+  <div class="mt-5">
+    <h3 class="mb-3">5 dernières commandes</h3>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Client</th>
+          <th>Total (€)</th>
+          <th>État</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @recent_orders.each do |order| %>
+          <tr>
+            <td><%= l(order.created_at, format: :short) %></td>
+            <td><%= order.user&.email || "Invité" %></td>
+            <td><%= number_to_currency(order.total_price || 0, unit: "€", separator: ",", delimiter: " ") %></td>
+            <td><%= order.status || "En attente" %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

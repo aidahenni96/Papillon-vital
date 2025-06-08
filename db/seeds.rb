@@ -1,5 +1,6 @@
 puts "Suppression des anciens produits..."
 Product.destroy_all
+User.destroy_all
 
 puts "Création des produits..."
 
@@ -24,3 +25,20 @@ puts "Création des produits..."
 end
 
 puts "✅ Produits ajoutés avec succès !"
+
+require 'faker' 
+
+
+
+
+User.create!(
+  email: "aidahenni96@icloud.com",
+  password: "123456",
+  password_confirmation: "123456",
+  admin: true
+)
+
+puts "Admin créé : aidahenni96@icloud.com/ 123456"
+
+
+

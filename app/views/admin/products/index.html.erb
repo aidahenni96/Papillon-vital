@@ -1,0 +1,46 @@
+<% if flash[:notice] %>
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <%= flash[:notice] %>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+<% end %>
+
+<% if flash[:alert] %>
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <%= flash[:alert] %>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+<% end %>
+
+
+<div class="container mt-5">
+  <h2 class="text-center mb-4">📦 Produits – Administration Papillon Vital</h2>
+
+  <%= link_to '➕ Ajouter un produit', new_admin_product_path, class: 'btn btn-success mb-3' %>
+
+  <table class="table table-hover table-bordered shadow-sm">
+    <thead class="table-dark">
+      <tr>
+        <th>Nom</th>
+        <th>Description</th>
+        <th>Prix (€)</th>
+        <th>Stock</th>
+        <th class="text-center">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @products.each do |product| %>
+        <tr>
+          <td><%= product.name %></td>
+          <td><%= truncate(product.description, length: 60) %></td>
+          <td><%= number_to_currency(product.price, unit: "€", separator: ",", delimiter: " ") %></td>
+          <td><%= product.stock %></td>
+          <td class="text-center">
+            <%= link_to '✏️ Modifier', edit_admin_product_path(product), class: "btn btn-sm btn-warning me-2" %>
+            <%= link_to '🗑 Supprimer', admin_product_path(product), method: :delete, data: { confirm: "Tu es sûr(e) de vouloir supprimer ce produit ?" }, class: "btn btn-sm btn-danger" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

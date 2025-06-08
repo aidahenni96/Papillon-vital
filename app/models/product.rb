@@ -4,9 +4,11 @@ class Product < ApplicationRecord
   validates :price, presence: true, numericality: { greater_than_or_equal_to: 0}
   validates :stock, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :image_url, format: { with: URI::regexp(%w[http https]), message: "doit être une URL valide" }, allow_blank: true
-  has_and_belongs_to_many :carts
-  has_many :order_products
-  has_many :orders, through: :order_products
+  has_many :order_products, dependent: :destroy
+  has_many :orders, through: :order_products, dependent: :destroy
+  has_one_attached :image , dependent: :destroy, dependent: :purge_later
+  has_many :cart_products, dependent: :destroy 
+  has_many :carts, through: :cart_products, dependent: :destroy
 
 end
 def image_filename

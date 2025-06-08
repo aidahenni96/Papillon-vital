@@ -1,0 +1,26 @@
+<div class="container my-5">
+  <h2 class="mb-4 text-center">🛍️ Détails du Produit</h2>
+
+  <div class="card shadow rounded">
+    <div class="card-body">
+      <h3 class="card-title"><%= @product.name %></h3>
+      
+      <p><strong>Description :</strong> <%= @product.description %></p>
+      <p><strong>Prix :</strong> <%= number_to_currency(@product.price, unit: "€", separator: ",", delimiter: " ") %></p>
+      <p><strong>Stock :</strong> <%= @product.stock %></p>
+
+      <% if @product.image.attached? %>
+        <%= image_tag url_for(@product.image), class: "img-fluid" %>
+      <% else %>
+        <p>Aucune image attachée.</p>
+      <% end %>
+
+
+      <div class="mt-4 d-flex gap-2">
+        <%= link_to '✏️ Modifier', edit_admin_product_path(@product), class: 'btn btn-primary' %>
+        <%= button_to '🗑️ Supprimer', admin_product_path(@product), method: :delete, data: { confirm: "Es-tu sûr de vouloir supprimer ce produit ?" }, class: 'btn btn-danger' %>
+        <%= link_to '⬅️ Retour', admin_products_path, class: 'btn btn-secondary' %>
+      </div>
+    </div>
+  </div>
+</div>

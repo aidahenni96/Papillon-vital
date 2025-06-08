@@ -1,3 +1,4 @@
+<%# Active Storage > fallback %>
 <% image_map = {
   "ashwagandha bio" => "Ashwagandha_bio.png",
   "curcuma bio" => "Curcuma_bio.png",
@@ -24,11 +25,14 @@
 
   <div class="row">
     <div class="col-md-6">
-      <% if image_file.present? %>
-        <%= image_tag "products/#{image_file}", class: "img-fluid", alt: @product.name %>
-      <% else %>
-        <p>Aucune image disponible</p>
-      <% end %>
+    <% if @product.image.attached? %>
+      <%= image_tag url_for(@product.image), class: "img-fluid", alt: @product.name %>
+    <% elsif image_file.present? %>
+      <%= image_tag "products/#{image_file}", class: "img-fluid", alt: @product.name %>
+    <% else %>
+      <p>Aucune image disponible</p>
+    <% end %>
+  
     </div>
 
     <div class="col-md-6">
@@ -39,11 +43,13 @@
         <%= label_tag :quantity, "Quantité" %>
         <%= number_field_tag :quantity, 1, min: 1, class: "form-control w-25", id: "quantity-input" %>
       </div>
-
+      
+      <%= link_to "Ajouter au panier", add_to_cart_cart_path(product_id: @product.id, quantity: 1), class: "btn btn-success mt-3" %>
       
       <%= link_to "Voir le panier", cart_path, class: "btn btn-secondary mt-3" %>
+
       <%= link_to 'Retour à la boutique', products_path, class: 'btn btn-vert-canard mt-3' %>
-      <%= link_to "Ajouter au panier", add_to_cart_cart_path(product_id: @product.id, quantity: 1), class: "btn btn-success mt-3" %>
+      
 
     </div>
   </div>

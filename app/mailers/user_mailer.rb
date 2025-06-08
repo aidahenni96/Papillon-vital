@@ -16,4 +16,12 @@ class UserMailer < ApplicationMailer
   
     mail(to: admins, subject: "Nouvelle commande passée !")
   end
+
+  def new_user_notification(user)
+    @user = user
+    mail(
+      to: "admin@papillon-vital.com",
+      subject: "Nouveau compte utilisateur"
+    )
+  end
 end

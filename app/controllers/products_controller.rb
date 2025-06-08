@@ -1,5 +1,8 @@
 class ProductsController < ApplicationController
   before_action :set_product, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
+  before_action :authorize_admin!, only: [:new, :create, :edit, :update, :destroy]
+
 
   # GET /products or /products.json
   def index
@@ -50,9 +53,9 @@ class ProductsController < ApplicationController
   # DELETE /products/1 or /products/1.json
   def destroy
     @product.destroy!
-
+    @product = Product.find(params[:id])
     respond_to do |format|
-      format.html { redirect_to products_path, status: :see_other, notice: "Product was successfully destroyed." }
+      format.html { redirect_to products_path, status: :see_other, notice: "Produit supprimé avec succès." }
       format.json { head :no_content }
     end
   end
@@ -65,6 +68,11 @@ class ProductsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def product_params
-      params.expect(product: [ :name, :description, :price, :image_url, :stock ])
+      params.require(:product).permit(:name, :description, :price, :stock, :image)
+    end
+    
+
+    def authorize_admin!
+      redirect_to root_path, alert: "Accès refusé" unless current_user&.admin?
     end
 end
