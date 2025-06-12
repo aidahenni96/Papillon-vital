@@ -22,8 +22,14 @@
   <div class="mb-3">
     <%= form.label :image, class: "form-label" %>
     <%= form.file_field :image, class: "form-control" %>
+
+    <% if product.image.attached? %>
+      <div class="mt-3">
+        <p>Image actuelle :</p>
+        <%= image_tag product.image, class: "img-thumbnail", style: "max-width: 200px; height: auto;" %>
+      </div>
+    <% end %>
   </div>
 
   <%= form.submit "Enregistrer", class: "btn btn-primary" %>
 <% end %>
-

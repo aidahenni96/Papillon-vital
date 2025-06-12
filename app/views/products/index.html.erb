@@ -1,35 +1,69 @@
 <% content_for :title, "Nos Produits Bio" %>
 
 <% if notice %>
-<p class="flash-notice"><%= notice %></p>
+  <p class="flash-notice"><%= notice %></p>
 <% end %>
 
-<div class="container">
-  <div class="blurred-image-container mb-4">
-    <%= image_tag "Ac/Photo_accueil.jpg", alt: "Image de fond floue", class: "blurred-image" %>
+<!-- Section Hero avec image + texte -->
+<div class="hero-banner position-relative text-white mb-5" style="background-image: url(<%= asset_path('Ac/Photo_accueil.jpg') %>); background-size: cover; background-position: center; min-height: 350px;">
+  <div class="container h-100 d-flex align-items-center">
+    <div class="col-md-6 bg-dark bg-opacity-50 p-4 rounded-3">
+      <h1 class="display-5">Nos Produits Bio</h1>
+      <p class="lead">
+        Découvrez notre sélection rigoureuse de produits naturels, pensés pour accompagner les personnes atteintes de la thyroïdite de Hashimoto.
+      </p>
+    </div>
   </div>
 </div>
 
-<div class="page-header mb-4">
-  <h1>Nos Produits Bio</h1>
-  <p class="lead">
-    Découvrez notre sélection rigoureuse de produits naturels, pensés pour accompagner les personnes atteintes de la thyroïdite de Hashimoto.
-  </p>
-</div>
+
 
 
 <!-- Slogan défilant -->
-<div class="slogan-container mb-4">
+<div class="slogan-container mb-4 text-center">
   <div class="slogan-text">
     🌿 Votre bien-être, notre priorité – Produits bio & naturels pour Hashimoto – 🌿
   </div>
 </div>
 
-<div class="row">
-  <% @products.each do |product| %>
-    <div class="col-md-4 mb-4">
-      <%= render partial: "product", locals: { product: product } %>
-    </div>
-  <% end %>
+<!-- Carousel luxueux et automatique -->
+<div id="carouselExampleIndicators" class="carousel slide mb-5" data-bs-ride="carousel" data-bs-interval="2000">
+  <div class="carousel-indicators">
+    <% 6.times do |i| %>
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="<%= i %>" 
+        class="<%= 'active' if i == 0 %>" aria-current="<%= 'true' if i == 0 %>" aria-label="Slide <%= i + 1 %>"></button>
+    <% end %>
+  </div>
+
+  <div class="carousel-inner">
+    <% (1..6).each do |i| %>
+      <div class="carousel-item <%= 'active' if i == 1 %>">
+        <%= image_tag "carousel/image#{i}.jpg", class: "d-block w-100 carousel-image", alt: "Image #{i}" %>
+      </div>
+    <% end %>
+  </div>
+
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Précédent</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Suivant</span>
+  </button>
 </div>
 
+
+<!-- Section Produits -->
+
+<div class="container my-5">
+  <div class="row mb-4 justify-content-center">
+    <% @products.each do |product| %>
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex justify-content-center">
+        <%= render partial: "product", locals: { product: product } %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+</div>

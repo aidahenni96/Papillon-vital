@@ -1,0 +1,28 @@
+
+.custom-navbar-bg {
+  background-color: #7eaaa8;
+}
+.navbar .nav-link:hover {
+  background-color: #6c8886;
+  border-radius: 0.5rem;
+  color: #69bbc5 !important;
+  transition: background-color 0.3s ease;
+}
+
+.hero-banner {
+  position: relative;
+  color: white;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+}
+.slogan-text {
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #e0f3f5;
+  animation: slide 20s linear infinite;
+}
+@keyframes slide {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+

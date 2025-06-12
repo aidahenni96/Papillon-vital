@@ -1,19 +1,33 @@
+<% content_for :title, "Mes commandes" %>
+
 <% if notice %>
-  <div class="alert alert-success" role="alert">
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
     <%= notice %>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
   </div>
 <% end %>
 
-<% content_for :title, "Orders" %>
+<h1 class="mb-4 text-center">Mes commandes</h1>
 
-<h1 class="mb-4">Commandes</h1>
-
-<div id="orders" class="row g-3">
+<div class="row g-4">
   <% @orders.each do |order| %>
-    <div class="col-md-6 col-lg-4">
-      <%= render order %>
-    
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="card shadow-sm border-0 h-100">
+        <div class="card-header bg-primary text-white">
+          <h5 class="card-title mb-0">Commande #<%= order.id %></h5>
+        </div>
+        <div class="card-body d-flex flex-column justify-content-between">
+          <ul class="list-unstyled mb-3">
+            <li><strong>Statut :</strong> <span class="badge <%= bootstrap_class_for_status(order.status) %>"><%= order.status.to_s.capitalize %></span></li>
+            <li><strong>Total HT :</strong> <%= number_to_currency(order.total_price, unit: "€", separator: ",", delimiter: " ") %></li>
+            <li><strong>Total TTC :</strong> <%= number_to_currency(order.total_ttc, unit: "€", separator: ",", delimiter: " ") %></li>
+            <li><strong>Date :</strong> <%= l(order.created_at, format: :short) %></li>
+          </ul>
+          <a href="<%= order_path(order) %>" class="btn btn-outline-primary btn-sm mt-auto align-self-start">
+            Voir les détails
+          </a>
+        </div>
+      </div>
     </div>
   <% end %>
 </div>
-

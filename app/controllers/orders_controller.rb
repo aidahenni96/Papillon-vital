@@ -10,12 +10,15 @@ end
 
   def index
     @orders = current_user.orders.includes(:products)
+    @orders = current_user.orders.order(created_at: :desc)
+    @orders_en_cours = current_user.orders.where(status: 'en cours').order(created_at: :desc)
+    @orders_passees = current_user.orders.where.not(status: 'en cours').order(created_at: :desc)
   end
 
   def total_price
     products.sum(:price)
   end
-  
+
 
   def show
     @order = current_user.orders.find(params[:id])
@@ -64,20 +67,20 @@ end
     order = Order.find(params[:id])
 
     session = Stripe::Checkout::Session.create(
-      payment_method_types: ['card'],
+      payment_method_types: [ "card" ],
       line_items: order.order_products.map do |op|
         {
           price_data: {
-            currency: 'eur',
-            unit_amount: (op.price_at_purchase * 100).to_i,
+            currency: "eur",
+            unit_amount: ((op.price_at_purchase * 1.2) * 100).to_i,
             product_data: {
-              name: op.product.name
+              name: "#{op.product.name} (TTC)"
             }
           },
           quantity: op.quantity
         }
       end,
-      mode: 'payment',
+      mode: "payment",
       success_url: orders_url, # à personnaliser
       cancel_url: cart_url
     )
@@ -88,7 +91,7 @@ end
   def success
     session = Stripe::Checkout::Session.retrieve(params[:session_id])
     payment_intent = Stripe::PaymentIntent.retrieve(session.payment_intent)
-  
+
     # Optionnel : tu peux stocker le payment_intent.id dans l’ordre
     order = current_user.orders.order(created_at: :desc).first
     order.update(status: "paid", stripe_payment_id: payment_intent.id)
@@ -96,12 +99,11 @@ end
     # Envoi de l'email de confirmation
     OrderMailer.confirmation_email(order).deliver_later
     UserMailer.order_notification(order).deliver_later
-  
+
     redirect_to cart_path(status: "paid")
-  end  
+  end
 
   def confirmation
     @order = Order.find(params[:id])
   end
-
 end

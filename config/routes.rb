@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get "/recettes", to: "recipes#index", as: :recipes
+
   namespace :admin do
     get "products/index"
     get "products/show"
@@ -13,14 +15,14 @@ Rails.application.routes.draw do
 
   devise_for :users
 
-  
 
-  resource :cart, only: [:show] do
-    get 'add/:product_id/:quantity', to: 'cart_products#add', as: :add_to_cart
-    resources :cart_products, only: [:show, :destroy, :edit, :update]
+
+  resource :cart, only: [ :show ] do
+    get "add/:product_id/:quantity", to: "cart_products#add", as: :add_to_cart
+    resources :cart_products, only: [ :show, :destroy, :edit, :update ]
   end
 
-  resources :orders, only: [:new, :create, :index, :show, :destroy] do
+  resources :orders, only: [ :new, :create, :index, :show, :destroy ] do
     member do
       get :checkout
       get :invoice
@@ -36,12 +38,14 @@ Rails.application.routes.draw do
   resources :order_products
   resources :products
 
+  resources :slider_images
+
+
   get "/profil", to: "users#profile", as: :user_profile
   get "up" => "rails/health#show", as: :rails_health_check
 
   namespace :admin do
-    get 'dashboard', to: 'dashboard#index'
+    get "dashboard", to: "dashboard#index"
     resources :products
   end
-  
 end

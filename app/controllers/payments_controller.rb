@@ -2,12 +2,12 @@
 class PaymentsController < ApplicationController
   def create
     @order = Order.find(params[:order_id])
-    Stripe.api_key = ENV['STRIPE_SECRET_KEY']
+    Stripe.api_key = ENV["STRIPE_SECRET_KEY"]
 
     line_items = @order.products.map do |product|
       {
         price_data: {
-          currency: 'eur',
+          currency: "eur",
           product_data: {
             name: product.name
           },
@@ -18,9 +18,9 @@ class PaymentsController < ApplicationController
     end
 
     session = Stripe::Checkout::Session.create(
-      payment_method_types: ['card'],
+      payment_method_types: [ "card" ],
       line_items: line_items,
-      mode: 'payment',
+      mode: "payment",
       success_url: order_url(@order),
       cancel_url: products_url
     )

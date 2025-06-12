@@ -1,34 +1,35 @@
-<div class="card h-100 shadow-sm">
-  <%# Active Storage > fallback %>
-  <% image_file = case product.name.downcase.strip
-    when "ashwagandha bio" then "Ashwagandha_bio.png"
-    when "curcuma bio" then "Curcuma_bio.png"
-    when "farine de coco bio" then "Farinedecoco_bio.png"
-    when "gingembre bio" then "Gingembre_bio.png"
-    when "graines de lin bio" then "Grainesdelin_bio.png"
-    when "maca bio" then "Maca_bio.png"
-    when "noix du brésil bio" then "NoixduBresil_Bio.png"
-    when "romarin bio" then "Romarin_Bio.png"
-    when "spiruline bio" then "Spiruline_Bio.png"
-    else nil
-  end %>
+<div class="card product-card h-100 shadow-sm border-0">
 
   <% if product.image.attached? %>
-    <%= image_tag url_for(product.image), alt: product.name, class: "card-img-top img-fluid p-3", style: "max-height: 200px; object-fit: contain;" %>
-  <% elsif image_file.present? %>
-    <%= image_tag "products/#{image_file}", alt: product.name, class: "card-img-top img-fluid p-3", style: "max-height: 200px; object-fit: contain;" %>
+    <%= image_tag url_for(product.image), alt: product.name, class: "card-img-top p-3 img-fluid", style: "max-height: 200px; object-fit: contain;" %>
   <% else %>
-    <div class="text-muted text-center py-4">Aucune image disponible</div>
+    <%# Ancien fallback vers images statiques si tu veux toujours ça %>
+    <% image_file = case product.name.downcase.strip
+      when "ashwagandha bio" then "Ashwagandha_bio.png"
+      when "curcuma bio" then "Curcuma_bio.png"
+      when "farine de coco bio" then "Farinedecoco_bio.png"
+      when "gingembre bio" then "Gingembre_bio.png"
+      when "graines de lin bio" then "Grainesdelin_bio.png"
+      when "maca bio" then "Maca_bio.png"
+      when "noix du brésil bio" then "NoixduBresil_Bio.png"
+      when "romarin bio" then "Romarin_Bio.png"
+      when "spiruline bio" then "Spiruline_Bio.png"
+      else nil
+    end %>
+      <% if product.image.attached? %>
+        <%= image_tag url_for(product.image), alt: product.name, class: "card-img-top p-3 img-fluid", style: "max-height: 200px; object-fit: contain;" %>
+      <% elsif image_file.present? %>
+        <%= image_tag "products/#{image_file}", alt: product.name, class: "card-img-top p-3 img-fluid", style: "max-height: 200px; object-fit: contain;" %>
+      <% else %>
+        <div class="text-muted text-center py-5">Aucune image disponible</div>
+      <% end %>
   <% end %>
 
-
   <div class="card-body d-flex flex-column">
-    <h5 class="card-title"><%= product.name %></h5>
-
+    <h5 class="card-title text-primary fw-bold"><%= product.name %></h5>
     <p class="card-text text-muted small mb-2">
       <%= truncate(product.description, length: 100) %>
     </p>
-
     <p class="fw-bold mb-1">Prix : <%= number_to_currency(product.price, unit: "€") %></p>
     <p class="mb-3">Stock disponible : <%= product.stock %></p>
 

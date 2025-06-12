@@ -1,8 +1,23 @@
 <div class="card mt-4 shadow-sm">
   <div class="card-body">
     <h5 class="card-title">Commande n°<%= order.id %></h5>
-    <p class="card-text"><strong>Client :</strong> <%= order.user.email if order.user %></p>
-    <p class="card-text"><strong>Montant total :</strong> <%= number_to_currency(order.total_price, unit: "€") %></p>
+
+    
+
+    <% if order.user %>
+      <p class="card-text">
+        <strong>Client :</strong> <%= order.user.email %>
+      </p>
+    <% end %>
+
+    <p class="card-text">
+      <strong>Total HT :</strong> <%= number_to_currency(order.total_price, unit: "€") %>
+    </p>
+
+    <p class="card-text">
+      <strong>Total TTC :</strong> <%= number_to_currency(order.total_ttc, unit: "€") %>
+    </p>
+
     <p class="card-text">
       <strong>Statut :</strong>
       <% status_class = case order.status.to_s.downcase
@@ -13,7 +28,9 @@
          end %>
       <span class="<%= status_class %>"><%= order.status.to_s.capitalize %></span>
     </p>
-    <a href="<%= order_path(order) %>" class="btn btn-primary mt-3">Voir la commande</a>
+
+    <a href="<%= order_path(order) %>" class="btn btn-outline-primary mt-3">
+      Voir la commande
+    </a>
   </div>
 </div>
-

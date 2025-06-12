@@ -7,12 +7,10 @@ class Admin::DashboardController < ApplicationController
     @products_count = Product.count
     @users_count = User.count
     @total_stock = Product.sum(:stock)
-    @average_price = Product.average(:price)&.round(2)  
+    @average_price = Product.average(:price)&.round(2)
     @total_revenue = Order.sum(:total_price)
     @orders_by_day = Order.group_by_day(:created_at).count
     @recent_orders = Order.order(created_at: :desc).limit(5)
-
-
   end
 
   private

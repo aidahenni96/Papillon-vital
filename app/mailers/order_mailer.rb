@@ -3,10 +3,10 @@ class OrderMailer < ApplicationMailer
 
   def welcome_email(user)
     @user = user
-    @url  = 'https://papillonvital.fr/login' # ou root_path si local
-    mail(to: @user.email, subject: 'Bienvenue chez Papillon Vital !')
+    @url  = "https://papillonvital.fr/login" # ou root_path si local
+    mail(to: @user.email, subject: "Bienvenue chez Papillon Vital !")
   end
-  
+
 
   def confirmation_email(order)
     @order = order
@@ -20,5 +20,4 @@ class OrderMailer < ApplicationMailer
     @user = order.user
     mail(to: "admin@papillonvital.com", subject: "Nouvelle commande passée !")
   end
-
 end

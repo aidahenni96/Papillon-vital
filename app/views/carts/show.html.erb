@@ -1,74 +1,85 @@
+<%# Gestion des flash messages - couleur unique + disparition auto %>
+<% flash.each do |_, message| %>
+  <div class="alert alert-info alert-dismissible fade show" role="alert" id="flash-alert">
+    <%= message %>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+<% end %>
+
 <h1 class="mb-4">Mon Panier</h1>
 
 <% if @cart_products&.any? %>
-  <table class="table table-striped table-bordered align-middle">
-    <thead class="table-primary">
-      <tr>
-        <th>Produit</th>
-        <th class="text-center">Quantité</th>
-        <th class="text-end">Prix unitaire</th>
-        <th class="text-end">Sous-total</th>
-        <th class="text-center">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% total = 0 %>
-      <% @cart_products.each do |cart_product| %>
-        <% subtotal = (cart_product.quantity || 1) * (cart_product.product.price || 0) %>
-        <% total += subtotal %>
-        <tr id="<%= dom_id(cart_product) %>">
-          <td><%= cart_product.product.name %></td>
-          <td class="text-center"><%= cart_product.quantity %></td>
-          <td class="text-end">
-            <%= number_to_currency(cart_product.product.price, unit: "€", separator: ",", delimiter: " ") %>
-          </td>
-          <td class="text-end">
-            <%= number_to_currency(subtotal, unit: "€", separator: ",", delimiter: " ") %>
-          </td>
-          <td class="text-center">
-          <%= link_to "Modifier", edit_cart_cart_product_path(cart_product), class: "btn btn-sm btn-outline-primary me-1" %>
-          <%= link_to "Supprimer", cart_cart_product_path(cart_product), method: :delete, data: { confirm: "Supprimer ce produit ?" }, class: "btn btn-sm btn-outline-danger" %>
-
-          </td>
+  <div class="table-responsive">
+    <table class="table table-striped table-bordered align-middle">
+      <thead class="table-primary">
+        <tr>
+          <th>Produit</th>
+          <th class="text-center">Quantité</th>
+          <th class="text-end">Prix unitaire</th>
+          <th class="text-end">Sous-total</th>
+          <th class="text-center">Actions</th>
         </tr>
-      <% end %>
-    </tbody>
+      </thead>
+      <tbody>
+        <% total = 0 %>
+        <% @cart_products.each do |cart_product| %>
+          <% subtotal = (cart_product.quantity || 1) * (cart_product.product.price || 0) %>
+          <% total += subtotal %>
+          <tr id="<%= dom_id(cart_product) %>">
+            <td><%= cart_product.product.name %></td>
+            <td class="text-center"><%= cart_product.quantity %></td>
+            <td class="text-end">
+              <%= number_to_currency(cart_product.product.price, unit: "€", separator: ",", delimiter: " ") %>
+            </td>
+            <td class="text-end">
+              <%= number_to_currency(subtotal, unit: "€", separator: ",", delimiter: " ") %>
+            </td>
+            <td class="text-center">
+              <%= link_to "Modifier", edit_cart_cart_product_path(cart_product), class: "btn btn-sm btn-outline-primary me-1" %>
+              <%= link_to "Supprimer", cart_cart_product_path(cart_product), method: :delete, data: { confirm: "Supprimer ce produit ?" }, class: "btn btn-sm btn-outline-danger" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
 
-    <%# Calcul TVA et frais livraison %>
-    <% tva_rate = 0.20 %>
-    <% tva_amount = total * tva_rate %>
-    <% shipping_fee = total < 50 ? 5.0 : 0.0 %>
-    <% total_ttc = total + tva_amount + shipping_fee %>
+      <%# Calcul TVA et frais livraison %>
+      <% tva_rate = 0.20 %>
+      <% tva_amount = total * tva_rate %>
+      <% shipping_fee = total < 50 ? 5.0 : 0.0 %>
+      <% total_ttc = total + tva_amount + shipping_fee %>
 
-    <tfoot>
-      <tr>
-        <th colspan="3" class="text-end">Sous-total HT :</th>
-        <th class="text-end"><%= number_to_currency(total, unit: "€", separator: ",", delimiter: " ") %></th>
-        <th></th>
-      </tr>
-      <tr>
-        <th colspan="3" class="text-end">TVA (20%) :</th>
-        <th class="text-end"><%= number_to_currency(tva_amount, unit: "€", separator: ",", delimiter: " ") %></th>
-        <th></th>
-      </tr>
-      <tr>
-        <th colspan="3" class="text-end">Frais de livraison :</th>
-        <th class="text-end"><%= number_to_currency(shipping_fee, unit: "€", separator: ",", delimiter: " ") %></th>
-        <th></th>
-      </tr>
-      <tr class="table-primary fw-bold">
-        <th colspan="3" class="text-end">Total TTC :</th>
-        <th class="text-end"><%= number_to_currency(total_ttc, unit: "€", separator: ",", delimiter: " ") %></th>
-        <th></th>
-      </tr>
-    </tfoot>
-  </table>
+      <tfoot>
+        <tr>
+          <th colspan="3" class="text-end">Sous-total HT :</th>
+          <th class="text-end"><%= number_to_currency(total, unit: "€", separator: ",", delimiter: " ") %></th>
+          <th></th>
+        </tr>
+        <tr>
+          <th colspan="3" class="text-end">TVA (20%) :</th>
+          <th class="text-end"><%= number_to_currency(tva_amount, unit: "€", separator: ",", delimiter: " ") %></th>
+          <th></th>
+        </tr>
+        <tr>
+          <th colspan="3" class="text-end">Frais de livraison :</th>
+          <th class="text-end"><%= number_to_currency(shipping_fee, unit: "€", separator: ",", delimiter: " ") %></th>
+          <th></th>
+        </tr>
+        <tr class="table-primary fw-bold">
+          <th colspan="3" class="text-end">Total TTC :</th>
+          <th class="text-end"><%= number_to_currency(total_ttc, unit: "€", separator: ",", delimiter: " ") %></th>
+          <th></th>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
 
   <div class="d-flex justify-content-end">
-    <%= button_to "Payer avec Stripe", orders_path, method: :post, class: "btn btn-success" %>
+    <%= button_to "Payer", orders_path, method: :post, class: "btn btn-success btn-lg" %>
   </div>
 <% else %>
   <div class="alert alert-info" role="alert">
     Votre panier est vide.
   </div>
 <% end %>
+
+

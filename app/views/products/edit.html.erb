@@ -5,3 +5,15 @@
 <%= render 'form', product: @product %>
 
 <%= link_to 'Retour', product_path(@product), class: 'btn btn-outline-secondary mt-3' %>
+
+<%= form_with model: @slider_image, local: true do |form| %>
+  <div class="mb-3">
+    <%= form.label :title %>
+    <%= form.text_field :title, class: "form-control" %>
+  </div>
+  <div class="mb-3">
+    <%= form.label :image %>
+    <%= form.file_field :image, class: "form-control" %>
+  </div>
+  <%= form.submit class: "btn btn-primary" %>
+<% end %>

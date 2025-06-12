@@ -7,6 +7,5 @@ class CartsController < ApplicationController
     @total_price = @cart_products.sum do |ci|
       (ci.product.price || 0) * (ci.quantity || 1)
     end
-
   end
 end

@@ -1,11 +1,12 @@
 class ProductsController < ApplicationController
   before_action :set_product, only: %i[ show edit update destroy ]
-  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
-  before_action :authorize_admin!, only: [:new, :create, :edit, :update, :destroy]
+  before_action :authenticate_user!, only: [ :new, :create, :edit, :update, :destroy ]
+  before_action :authorize_admin!, only: [ :new, :create, :edit, :update, :destroy ]
 
 
   # GET /products or /products.json
   def index
+    @slider_images = SliderImage.all
     @products = Product.all
   end
 
@@ -52,8 +53,8 @@ class ProductsController < ApplicationController
 
   # DELETE /products/1 or /products/1.json
   def destroy
-    @product.destroy!
     @product = Product.find(params[:id])
+    @product.destroy!
     respond_to do |format|
       format.html { redirect_to products_path, status: :see_other, notice: "Produit supprimé avec succès." }
       format.json { head :no_content }
@@ -63,14 +64,14 @@ class ProductsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_product
-      @product = Product.find(params.expect(:id))
+      @product = Product.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def product_params
       params.require(:product).permit(:name, :description, :price, :stock, :image)
     end
-    
+
 
     def authorize_admin!
       redirect_to root_path, alert: "Accès refusé" unless current_user&.admin?

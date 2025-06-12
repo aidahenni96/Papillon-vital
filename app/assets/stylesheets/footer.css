@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
+
+.footer-luxe {
+  font-family: 'Lora', serif;
+  background-color: #fffefc;
+  border-top: 2px solid #eaeaea;
+}
+
+.couleur-doree {
+  color: #c19e6d; /* Or doux, élégant */
+}
+
+.ligne-separation {
+  border-top: 1px solid #dcdcdc;
+}
+
+.social-icon {
+  color: #333;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.social-icon:hover {
+  color: #c19e6d;
+  transform: scale(1.2);
+}
+.footer-mini {
+  background-color: #fefefe;
+  font-family: 'Lora', serif;
+}
+
+.social-icon {
+  color: #555;
+  transition: color 0.3s ease;
+  font-size: 1.1rem;
+}
+
+.social-icon:hover {
+  color: #c19e6d;
+}

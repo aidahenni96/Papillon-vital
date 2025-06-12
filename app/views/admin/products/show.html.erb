@@ -9,8 +9,11 @@
       <p><strong>Prix :</strong> <%= number_to_currency(@product.price, unit: "€", separator: ",", delimiter: " ") %></p>
       <p><strong>Stock :</strong> <%= @product.stock %></p>
 
+      <p>Image attachée ? <%= @product.image.attached? %></p>
+      <p>Image URL : <%= @product.image.attached? ? url_for(@product.image) : "Pas d'image" %></p>
+
       <% if @product.image.attached? %>
-        <%= image_tag url_for(@product.image), class: "img-fluid" %>
+        <%= image_tag url_for(@product.image), class: "img-fluid", style: "max-width: 300px; height: auto;" %>
       <% else %>
         <p>Aucune image attachée.</p>
       <% end %>

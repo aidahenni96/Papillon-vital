@@ -29,22 +29,22 @@ class CartProductsController < ApplicationController
   def add
     @product = Product.find(params[:product_id])
     quantity = params[:quantity].to_i
-  
+
     cart_product = current_cart.cart_products.find_by(product: @product)
-  
+
     if cart_product
       cart_product.quantity += quantity
     else
       cart_product = current_cart.cart_products.build(product: @product, quantity: quantity)
     end
-  
+
     if cart_product.save
-      redirect_to cart_path, notice: 'Produit ajouté au panier.'
+      redirect_to cart_path, notice: "Produit ajouté au panier."
     else
-      redirect_to products_path, alert: 'Erreur lors de l\'ajout au panier.'
+      redirect_to products_path, alert: "Erreur lors de l'ajout au panier."
     end
   end
-  
+
 
   def new
     @cart_product = CartProduct.new
@@ -74,7 +74,7 @@ class CartProductsController < ApplicationController
 
   def update
     if @cart_product.update(cart_product_params)
-      redirect_to cart_cart_product_path(@cart_product), notice: "Quantité mise à jour avec succès."
+      redirect_to cart_path, notice: "Quantité mise à jour avec succès."
     else
       render :edit, status: :unprocessable_entity
     end
@@ -104,6 +104,8 @@ class CartProductsController < ApplicationController
 
   def set_cart_product
     @cart_product = current_cart.cart_products.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    redirect_to cart_path(current_cart), alert: "Produit introuvable dans votre panier."
   end
 
   def cart_product_params
