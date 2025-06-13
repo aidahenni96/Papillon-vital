@@ -1,7 +1,7 @@
 <% content_for :title, "Nos Produits Bio" %>
 
 <% if notice %>
-  <p class="flash-notice"><%= notice %></p>
+  <p class="flash-notice flash-message"><%= notice %></p>
 <% end %>
 
 <!-- Section Hero avec image + texte -->
@@ -15,9 +15,6 @@
     </div>
   </div>
 </div>
-
-
-
 
 <!-- Slogan défilant -->
 <div class="slogan-container mb-4 text-center">
@@ -53,9 +50,7 @@
   </button>
 </div>
 
-
 <!-- Section Produits -->
-
 <div class="container my-5">
   <div class="row mb-4 justify-content-center">
     <% @products.each do |product| %>
@@ -64,6 +59,4 @@
       </div>
     <% end %>
   </div>
-</div>
-
 </div>
