@@ -276,3 +276,8 @@ Button
     height: 250px;
   }
 }
+
+.alert-info {
+  background-color: #b8d4d1 !important;
+  color: #010e0e !important;
+}

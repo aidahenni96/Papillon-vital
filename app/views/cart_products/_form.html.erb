@@ -10,15 +10,21 @@
     </div>
   <% end %>
 
-  <div class="mb-3">
-    <%= form.label :cart_id, "ID du panier", class: "form-label" %>
-    <%= form.text_field :cart_id, class: "form-control" %>
-  </div>
+  <% if current_user.admin? %>
+    <div class="mb-3">
+      <%= form.label :cart_id, "ID du panier", class: "form-label" %>
+      <%= form.text_field :cart_id, class: "form-control" %>
+    </div>
 
-  <div class="mb-3">
-    <%= form.label :product_id, "ID du produit", class: "form-label" %>
-    <%= form.text_field :product_id, class: "form-control" %>
-  </div>
+    <div class="mb-3">
+      <%= form.label :product_id, "ID du produit", class: "form-label" %>
+      <%= form.text_field :product_id, class: "form-control" %>
+    </div>
+  <% else %>
+    <!-- Ces champs sont masqués mais toujours envoyés côté serveur -->
+    <%= form.hidden_field :cart_id %>
+    <%= form.hidden_field :product_id %>
+  <% end %>
 
   <div class="mb-3">
     <%= form.label :quantity, "Quantité", class: "form-label" %>
